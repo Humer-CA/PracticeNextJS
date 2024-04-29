@@ -19,4 +19,5 @@ const ErrorPage = ({ error, reset }: Props) => {
   );
 };
 
+
 export default ErrorPage;
