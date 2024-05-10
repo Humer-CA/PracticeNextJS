@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
   const validation = schema.safeParse(body);
   if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const user = await prisma.user.findUnique({ where: body.email });
-  if (user) NextResponse.json({ error: "Email already exists" }, { status: 400 });
+  const user = await prisma.user.findUnique({ where: { email: body.email } });
+  if (user) return NextResponse.json({ error: "Email already exists" }, { status: 400 });
 
   const createUser = await prisma.user.create({
     data: {
@@ -23,5 +23,6 @@ export async function POST(request: NextRequest) {
       email: body.email,
     },
   });
+
   return NextResponse.json(createUser, { status: 201 });
 }
